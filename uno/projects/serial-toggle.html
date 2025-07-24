@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNO - Serial Control</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-center p-6">
+  <h1 class="text-3xl font-bold mb-4">Arduino UNO - Serial Toggle</h1>
+  <p class="mb-4">Control LED and buzzer using Serial Monitor. Send <strong>'1'</strong> to turn ON, <strong>'0'</strong> to turn OFF.</p>
+  <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+int ledPin = 13;
+int buzzer = 8;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (Serial.available()) {
+    char cmd = Serial.read();
+    if (cmd == '1') {
+      digitalWrite(ledPin, HIGH);
+      digitalWrite(buzzer, HIGH);
+    } else if (cmd == '0') {
+      digitalWrite(ledPin, LOW);
+      digitalWrite(buzzer, LOW);
+    }
+  }
+}
+</code>
+  </pre>
+  <a href="../index.html" class="mt-6 text-blue-600 hover:underline">← Back to UNO Projects</a>
+</body>
+</html>

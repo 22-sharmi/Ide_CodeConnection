@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNO - LED Blink</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-center p-6">
+  <h1 class="text-3xl font-bold mb-4">Arduino UNO - LED Blink</h1>
+  <p class="mb-4">This project blinks the built-in LED on pin 13 of the Arduino Uno.</p>
+  <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+void setup() {
+  pinMode(13, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(13, HIGH);
+  delay(1000);
+  digitalWrite(13, LOW);
+  delay(1000);
+}
+</code>
+  </pre>
+  <a href="../index.html" class="mt-6 text-blue-600 hover:underline">← Back to UNO Projects</a>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESP32 Serial Monitor</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">ESP32 - Serial Monitor</h1>
+
+    <p class="mb-6 text-center">Control LED and Buzzer using Serial Monitor. Send <strong>'1'</strong> to turn ON, <strong>'0'</strong> to turn OFF.</p>
+
+    <h2 class="text-xl font-semibold mb-2">Circuit Connection:</h2>
+    <ul class="list-disc list-inside pl-4 mb-6">
+      <li>LED +ve to GPIO 2</li>
+      <li>LED -ve to 220Ω resistor to GND</li>
+      <li>Buzzer +ve to GPIO 8</li>
+      <li>Buzzer -ve to GND</li>
+    </ul>
+
+    <pre class="bg-gray-100 p-4 rounded w-full overflow-x-auto mb-6">
+<code>
+int ledPin = 2;
+int buzzer = 8;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+  Serial.begin(115200);
+}
+
+void loop() {
+  if (Serial.available()) {
+    char cmd = Serial.read();
+    if (cmd == '1') {
+      digitalWrite(ledPin, HIGH);
+      digitalWrite(buzzer, HIGH);
+    } else if (cmd == '0') {
+      digitalWrite(ledPin, LOW);
+      digitalWrite(buzzer, LOW);
+    }
+  }
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to ESP32 Projects</a>
+    </div>
+  </div>
+</body>
+</html>

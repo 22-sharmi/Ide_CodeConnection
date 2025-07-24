@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNO - Buzzer</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-center p-6">
+  <h1 class="text-3xl font-bold mb-4">Arduino UNO - Buzzer</h1>
+  <p class="mb-4">This project toggles a buzzer ON and OFF connected to pin 8 of the Uno.</p>
+  <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+int buzzer = 8;
+
+void setup() {
+  pinMode(buzzer, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(buzzer, HIGH);
+  delay(500);
+  digitalWrite(buzzer, LOW);
+  delay(500);
+}
+</code>
+  </pre>
+  <a href="../index.html" class="mt-6 text-blue-600 hover:underline">← Back to UNO Projects</a>
+</body>
+</html>
