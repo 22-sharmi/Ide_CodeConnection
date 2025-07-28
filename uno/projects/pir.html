@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arduino PIR Motion Sensor</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - PIR Motion Sensor</h1>
+
+    <p class="mb-6 text-center">Detect motion and print the result to Serial Monitor.</p>
+
+    <h2 class="text-xl font-semibold mb-2">Circuit Connection:</h2>
+    <ul class="list-disc list-inside pl-4 mb-6">
+      <li>PIR OUT to digital pin 8</li>
+      <li>VCC to 5V</li>
+      <li>GND to GND</li>
+    </ul>
+
+    <pre class="bg-gray-100 p-4 rounded w-full overflow-x-auto mb-6">
+<code>
+int pirPin = 8;
+
+void setup() {
+  pinMode(pirPin, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int motion = digitalRead(pirPin);
+  if (motion == HIGH) {
+    Serial.println("Motion Detected!");
+  } else {
+    Serial.println("No Motion");
+  }
+  delay(1000);
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to Arduino Projects</a>
+    </div>
+  </div>
+</body>
+</html>

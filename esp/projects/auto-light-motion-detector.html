@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auto Light Motion Detector - ESP32</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Auto Light Motion Detector - ESP32</h1>
+    <p class="mb-6 text-center">PIR sensor turns on LED light when motion is detected using ESP32 board.</p>
+
+    <h2 class="text-xl font-semibold mb-2">Circuit Connection (ESP32):</h2>
+    <ul class="list-disc list-inside mb-6 pl-4">
+      <li>PIR OUT to GPIO 14</li>
+      <li>LED +ve to GPIO 27 via 220Ω resistor</li>
+      <li>PIR VCC to 3.3V, GND to GND</li>
+    </ul>
+
+    <pre class="bg-gray-100 p-4 rounded overflow-x-auto mb-6">
+<code>
+int pirPin = 14;   // GPIO 14
+int ledPin = 27;   // GPIO 27
+
+void setup() {
+  pinMode(pirPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(115200);
+}
+
+void loop() {
+  int motion = digitalRead(pirPin);
+  if (motion == HIGH) {
+    digitalWrite(ledPin, HIGH);
+    Serial.println("Motion Detected - Light ON");
+  } else {
+    digitalWrite(ledPin, LOW);
+    Serial.println("No Motion - Light OFF");
+  }
+  delay(500);
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to Projects</a>
+    </div>
+  </div>
+</body>
+</html>

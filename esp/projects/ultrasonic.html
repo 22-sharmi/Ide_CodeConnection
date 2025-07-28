@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESP32 Ultrasonic Sensor</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">ESP32 - Ultrasonic Sensor</h1>
+
+    <p class="mb-6 text-center">Measure distance using HC-SR04 and view in Serial Monitor.</p>
+
+    <h2 class="text-xl font-semibold mb-2">Circuit Connection:</h2>
+    <ul class="list-disc list-inside pl-4 mb-6">
+      <li>Trig to GPIO 5</li>
+      <li>Echo to GPIO 18</li>
+      <li>VCC to 5V</li>
+      <li>GND to GND</li>
+    </ul>
+
+    <pre class="bg-gray-100 p-4 rounded w-full overflow-x-auto mb-6">
+<code>
+#define trigPin 5
+#define echoPin 18
+
+long duration;
+int distance;
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  Serial.begin(115200);
+}
+
+void loop() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2;
+
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  delay(1000);
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to ESP32 Projects</a>
+    </div>
+  </div>
+</body>
+</html>
