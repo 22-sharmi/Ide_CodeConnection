@@ -1,0 +1,15 @@
+[
+  { "name": "LED Blink", "file": "projects/led.html" },
+  { "name": "Buzzer", "file": "projects/buzzer.html" },
+  { "name": "Serial Monitor", "file": "projects/serial-toggle.html" },
+  { "name": "Touch Sensor", "file": "projects/touch-serial.html" },
+  { "name": "PIR Sensor", "file": "projects/pir.html" },
+  { "name": "IR Sensor", "file": "projects/ir.html" },
+  { "name": "Vibration Sensor", "file": "projects/vibration.html" },
+  { "name": "Ultrasonic Sensor", "file": "projects/ultrasonic.html" },
+  { "name": "Auto Light Motion Detector", "file": "projects/auto-light-motion-detector.html" },
+  { "name": "Intruder Alert System", "file": "projects/intruder-alert-system.html" },
+  { "name": "Earthquake Vibration Alert", "file": "projects/vibration-alert.html" },
+  { "name": "Smart Distance Alarm", "file": "projects/smart-distance-alarm.html" },
+  { "name": "Smart Climate Notifier", "file": "projects/smart-climate-notifier.html" }
+]

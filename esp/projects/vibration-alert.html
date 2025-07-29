@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Earthquake Vibration Alert (ESP32)</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Earthquake Vibration Alert (ESP32)</h1>
+    <p class="mb-6 text-center">Triggers buzzer and LED on vibration detection using ESP32.</p>
+
+    <h2 class="text-xl font-semibold mb-2">Circuit Connection (ESP32):</h2>
+    <ul class="list-disc list-inside mb-6 pl-4">
+      <li>Vibration Sensor OUT → <strong>GPIO 4</strong></li>
+      <li>LED → <strong>GPIO 3</strong> via 220Ω resistor</li>
+      <li>Buzzer → <strong>GPIO 2</strong></li>
+      <li>VCC → 3.3V, GND → GND</li>
+    </ul>
+
+    <pre class="bg-gray-100 p-4 rounded overflow-x-auto mb-6">
+<code>
+// Earthquake Vibration Alert using ESP32
+
+const int vibPin = 4;    // Vibration sensor
+const int ledPin = 3;    // LED
+const int buzzer = 2;    // Buzzer
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(vibPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+}
+
+void loop() {
+  int vib = digitalRead(vibPin);
+  if (vib == HIGH) {
+    digitalWrite(ledPin, HIGH);
+    digitalWrite(buzzer, HIGH);
+    Serial.println("⚠️ Vibration Detected!");
+  } else {
+    digitalWrite(ledPin, LOW);
+    digitalWrite(buzzer, LOW);
+    Serial.println("No Vibration");
+  }
+  delay(500);
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to Projects</a>
+    </div>
+  </div>
+</body>
+</html>

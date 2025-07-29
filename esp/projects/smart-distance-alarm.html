@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Distance Alarm - ESP32</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Smart Distance Alarm - ESP32</h1>
+    <p class="mb-6 text-center">Ultrasonic sensor triggers alert when object is too close (ESP32 Version).</p>
+
+    <h2 class="text-xl font-semibold mb-2">Circuit Connection:</h2>
+    <ul class="list-disc list-inside mb-6 pl-4">
+      <li>Trig to GPIO 12, Echo to GPIO 14</li>
+      <li>LED to GPIO 26, Buzzer to GPIO 27</li>
+      <li>VCC to 3.3V or 5V, GND to GND</li>
+    </ul>
+
+    <pre class="bg-gray-100 p-4 rounded overflow-x-auto mb-6">
+<code>
+#define trigPin 12
+#define echoPin 14
+#define led 26
+#define buzzer 27
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(led, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+  Serial.begin(115200);
+}
+
+void loop() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  long duration = pulseIn(echoPin, HIGH);
+  int distance = duration * 0.034 / 2;
+
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  if (distance < 15) {
+    digitalWrite(led, HIGH);
+    digitalWrite(buzzer, HIGH);
+  } else {
+    digitalWrite(led, LOW);
+    digitalWrite(buzzer, LOW);
+  }
+
+  delay(500);
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to Projects</a>
+    </div>
+  </div>
+</body>
+</html>

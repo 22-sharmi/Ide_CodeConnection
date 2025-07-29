@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DHT11 + ESP32 | Smart Temperature-Humidity Alert</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Smart Temperature-Humidity Alert</h1>
+    <p class="mb-6 text-center">This project uses the DHT11 sensor to monitor temperature and humidity. When the temperature exceeds 30°C or humidity exceeds 70%, the ESP32 triggers a buzzer and an LED to alert the user.</p>
+
+    <h2 class="text-xl font-semibold mb-2">Circuit Connection:</h2>
+    <ul class="list-disc list-inside mb-6 pl-4">
+      <li>DHT11 VCC → 3.3V</li>
+        <li>DHT11 GND → GND</li>
+        <li>DHT11 Data → GPIO 15</li>
+        <li>LED (+) → GPIO 2</li>
+        <li>Buzzer (+) → GPIO 4</li>
+        <li>LED (-), Buzzer (-) → GND</li>
+    </ul>
+
+    <pre class="bg-gray-100 p-4 rounded overflow-x-auto mb-6">
+<code>
+#include &lt;Adafruit_Sensor.h&gt;
+#include &lt;DHT.h&gt;
+
+#define DHTPIN 15
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+int led = 2;
+int buzzer = 4;
+
+void setup() {
+  Serial.begin(115200);
+  dht.begin();
+  pinMode(led, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+}
+
+void loop() {
+  float temp = dht.readTemperature();
+  float hum = dht.readHumidity();
+
+  Serial.print("Temp: ");
+  Serial.print(temp);
+  Serial.print("°C | Humidity: ");
+  Serial.println(hum);
+
+  if (temp > 30 || hum > 70) {
+    digitalWrite(led, HIGH);
+    digitalWrite(buzzer, HIGH);
+  } else {
+    digitalWrite(led, LOW);
+    digitalWrite(buzzer, LOW);
+  }
+
+  delay(2000);
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to Projects</a>
+    </div>
+  </div>
+</body>
+</html>

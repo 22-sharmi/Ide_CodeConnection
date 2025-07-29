@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intruder Alert System - ESP32</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Intruder Alert System (ESP32)</h1>
+    <p class="mb-6 text-center">IR sensor activates buzzer when obstacle is detected using ESP32.</p>
+
+    <h2 class="text-xl font-semibold mb-2">Circuit Connection:</h2>
+    <ul class="list-disc list-inside mb-6 pl-4">
+      <li>IR OUT to GPIO 18</li>
+      <li>Buzzer +ve to GPIO 19, -ve to GND</li>
+      <li>IR VCC to 3.3V (or 5V if supported), GND to GND</li>
+    </ul>
+
+    <pre class="bg-gray-100 p-4 rounded overflow-x-auto mb-6">
+<code>
+#define irPin 18
+#define buzzer 19
+
+void setup() {
+  pinMode(irPin, INPUT);
+  pinMode(buzzer, OUTPUT);
+  Serial.begin(115200);
+}
+
+void loop() {
+  int obstacle = digitalRead(irPin);
+  if (obstacle == LOW) {
+    digitalWrite(buzzer, HIGH);
+    Serial.println("Intruder Detected!");
+  } else {
+    digitalWrite(buzzer, LOW);
+    Serial.println("No Intruder");
+  }
+  delay(500);
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to Projects</a>
+    </div>
+  </div>
+</body>
+</html>
