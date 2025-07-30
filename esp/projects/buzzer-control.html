@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ESP32 Buzzer Control</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script>
+    function toggleSection(id) {
+      document.getElementById("wifiCode").classList.add("hidden");
+      document.getElementById("btCode").classList.add("hidden");
+      document.getElementById(id).classList.remove("hidden");
+    }
+  </script>
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-6 text-center">ESP32 - Buzzer Control</h1>
+    <p class="mb-4 text-center">Control a buzzer using WiFi or Bluetooth with ESP32</p>
+
+    <!-- Toggle Buttons -->
+    <div class="flex justify-center gap-4 mb-6">
+      <button onclick="toggleSection('wifiCode')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">WiFi Control</button>
+      <button onclick="toggleSection('btCode')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Bluetooth Control</button>
+    </div>
+
+    <!-- WiFi Buzzer Control Code -->
+    <div id="wifiCode" class="hidden">
+      <h2 class="text-2xl font-bold mb-2 text-center">Buzzer Control using WiFi (Web Server)</h2>
+      <pre class="bg-gray-100 p-4 rounded w-full overflow-x-auto mb-6">
+<code>
+#include &lt;WiFi.h&gt;
+
+const char* ssid = "Your_SSID";
+const char* password = "Your_PASSWORD";
+
+WiFiServer server(80);
+int buzzerPin = 4;
+
+void setup() {
+  pinMode(buzzerPin, OUTPUT);
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nWiFi connected!");
+  server.begin();
+}
+
+void loop() {
+  WiFiClient client = server.available();
+  if (client) {
+    String request = client.readStringUntil('\r');
+    client.flush();
+
+    if (request.indexOf("/ON") != -1) {
+      digitalWrite(buzzerPin, HIGH);
+    } else if (request.indexOf("/OFF") != -1) {
+      digitalWrite(buzzerPin, LOW);
+    }
+
+    client.println("HTTP/1.1 200 OK");
+    client.println("Content-Type: text/html");
+    client.println();
+    client.println("&lt;html&gt;&lt;body&gt;");
+    client.println("&lt;h1&gt;Buzzer Control&lt;/h1&gt;");
+    client.println("&lt;a href='/ON'&gt;ON&lt;/a&gt; | &lt;a href='/OFF'&gt;OFF&lt;/a&gt;");
+    client.println("&lt;/body&gt;&lt;/html&gt;");
+    delay(1);
+  }
+}
+</code>
+      </pre>
+    </div>
+
+    <!-- Bluetooth Buzzer Control Code -->
+    <div id="btCode" class="hidden">
+      <h2 class="text-2xl font-bold mb-2 text-center">Buzzer Control using Bluetooth</h2>
+      <pre class="bg-gray-100 p-4 rounded w-full overflow-x-auto mb-6">
+<code>
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+int buzzerPin = 4;
+
+void setup() {
+  pinMode(buzzerPin, OUTPUT);
+  Serial.begin(115200);
+  SerialBT.begin("ESP32_BUZZER"); 
+  Serial.println("Bluetooth ready. Type ON or OFF.");
+}
+
+void loop() {
+  if (SerialBT.available()) {
+    String command = SerialBT.readStringUntil('\n');
+    command.trim();
+
+    if (command == "ON") {
+      digitalWrite(buzzerPin, HIGH);
+      SerialBT.println("Buzzer ON");
+    } else if (command == "OFF") {
+      digitalWrite(buzzerPin, LOW);
+      SerialBT.println("Buzzer OFF");
+    } else {
+      SerialBT.println("Invalid command");
+    }
+  }
+}
+</code>
+      </pre>
+    </div>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to ESP32 Projects</a>
+    </div>
+  </div>
+</body>
+</html>
