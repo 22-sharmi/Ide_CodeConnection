@@ -2,6 +2,7 @@
   { "name": "LED Blink", "file": "projects/led.html" },
   { "name": "Buzzer", "file": "projects/buzzer.html" },
   { "name": "Serial Monitor", "file": "projects/serial-toggle.html" },
+  { "name": "Serial Control Game", "file": "projects/serial-toggle-game.html" },
   { "name": "Touch Sensor", "file": "projects/touch-serial.html" },
   { "name": "PIR Sensor", "file": "projects/pir.html" },
   { "name": "IR Sensor", "file": "projects/ir.html" },

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNO - Serial Control  Game </title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-center p-6">
+  <h1 class="text-3xl font-bold mb-4">Arduino UNO - Serial Control Game</h1>
+  <p class="mb-4">Guess the Number Game Using Serial Monitor <br/> LED ON For Correct Answer , Buzzer For Wrong !</p>
+  <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+const int ledPin = 13;
+const int buzzerPin = 12;
+int secretNumber;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
+  Serial.begin(9600);
+  randomSeed(analogRead(0)); // Seed random with analog noise
+  secretNumber = random(1, 6); // 1 to 5
+  Serial.println("🎮 Guess the secret number between 1 and 5!");
+}
+
+void loop() {
+  if (Serial.available()) {
+    int guess = Serial.parseInt();
+    
+    if (guess == secretNumber) {
+      Serial.println("🎉 Correct! You win!");
+      for (int i = 0; i < 5; i++) {
+        digitalWrite(ledPin, HIGH);
+        delay(100);
+        digitalWrite(ledPin, LOW);
+        delay(100);
+      }
+      secretNumber = random(1, 6); // Pick new number
+      Serial.println("🔁 New number generated! Guess again!");
+    } else {
+      Serial.println("❌ Wrong! Try again!");
+      digitalWrite(buzzerPin, HIGH);
+      delay(300);
+      digitalWrite(buzzerPin, LOW);
+    }
+  }
+}
+</code>
+  </pre>
+  <a href="../index.html" class="mt-6 text-blue-600 hover:underline">← Back to UNO Projects</a>
+</body>
+</html>
