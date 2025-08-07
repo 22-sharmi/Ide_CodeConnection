@@ -6,6 +6,7 @@
   { "name": "Touch Sensor", "file": "projects/touch-serial.html" },
   { "name": "PIR Sensor", "file": "projects/pir.html" },
   { "name": "IR Sensor", "file": "projects/ir.html" },
+  { "name": "Sound Sensor Controlled LED", "file": "projects/sound-control-led.html" },
   { "name": "Vibration Sensor", "file": "projects/vibration.html" },
   { "name": "Ultrasonic Sensor", "file": "projects/ultrasonic.html" },
   { "name": "Auto Light Motion Detector", "file": "projects/auto-light-motion-detector.html" },
