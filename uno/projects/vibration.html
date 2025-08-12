@@ -12,6 +12,53 @@
 
     <p class="mb-6 text-center">Detect vibrations using the SW-420 sensor and print to Serial Monitor.</p>
 
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section (Hidden by default) -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">Vibration Sensor – Detailed Notes</h2>
+      
+      <h3 class="font-semibold mt-2">1. What is a Vibration Sensor?</h3>
+      <p>A device that detects movement or shaking. The most common type used with Arduino is the <strong>SW-420 vibration sensor</strong>.</p>
+      
+      <h3 class="font-semibold mt-2">2. Working Principle</h3>
+      <p>Inside the sensor, a small spring is loosely fixed. When vibration occurs, the spring touches or moves away from a contact point. This changes the circuit state, sending a HIGH or LOW signal to the Arduino.</p>
+      
+      <h3 class="font-semibold mt-2">3. How It Works with Arduino</h3>
+      <ol class="list-decimal pl-5 space-y-1">
+        <li><strong>VCC</strong> powers the sensor (5V).</li>
+        <li><strong>GND</strong> connects to Arduino ground.</li>
+        <li><strong>DO pin</strong> sends HIGH when vibration is detected, LOW otherwise.</li>
+        <li>Arduino reads this digital signal and reacts accordingly.</li>
+      </ol>
+
+      <h3 class="font-semibold mt-2">4. Applications</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Earthquake detection alarms</li>
+        <li>Machine vibration monitoring</li>
+        <li>Theft detection for vehicles or safes</li>
+        <li>Industrial equipment maintenance alerts</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">5. Advantages</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Simple to use</li>
+        <li>Low cost</li>
+        <li>Works with both digital and analog outputs</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">6. Limitations</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Can be triggered by minor noise or movement</li>
+        <li>Requires sensitivity adjustment via onboard potentiometer for accurate readings</li>
+      </ul>
+    </div>
+
     <h2 class="text-xl font-semibold mb-2">Circuit Connection:</h2>
     <ul class="list-disc list-inside pl-4 mb-6">
       <li>Sensor OUT to digital pin 6</li>
@@ -44,5 +91,16 @@ void loop() {
       <a href="../index.html" class="text-blue-600 hover:underline">← Back to Arduino Projects</a>
     </div>
   </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
 </body>
 </html>
