@@ -10,7 +10,54 @@
   <div class="w-full max-w-3xl">
     <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - IR Obstacle Sensor</h1>
 
-    <p class="mb-6 text-center">Detect obstacles using IR sensor and print to Serial Monitor.</p>
+    <p class="mb-6 text-center">Detect obstacles using an IR sensor and print the status to the Serial Monitor.</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section (Hidden by default) -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">IR Obstacle Sensor – Detailed Notes</h2>
+      
+      <h3 class="font-semibold mt-2">1. What is an IR Obstacle Sensor?</h3>
+      <p>An IR (Infrared) obstacle sensor detects objects by emitting IR light and checking for reflections. If an object is close, the reflected light is detected by the sensor's photodiode or phototransistor.</p>
+      
+      <h3 class="font-semibold mt-2">2. Working Principle</h3>
+      <p>The sensor has two main parts: an IR LED (transmitter) and a photodiode/phototransistor (receiver). When the IR light bounces back from an object, the receiver detects it and changes the output signal.</p>
+      
+      <h3 class="font-semibold mt-2">3. How It Works with Arduino</h3>
+      <ol class="list-decimal pl-5 space-y-1">
+        <li><strong>VCC</strong> powers the sensor (5V).</li>
+        <li><strong>GND</strong> connects to Arduino ground.</li>
+        <li><strong>OUT pin</strong> sends a LOW signal when an obstacle is detected, HIGH otherwise.</li>
+        <li>Arduino reads this digital signal and acts accordingly.</li>
+      </ol>
+
+      <h3 class="font-semibold mt-2">4. Applications</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Line-following robots</li>
+        <li>Object detection in automation</li>
+        <li>Security systems</li>
+        <li>Proximity sensing for interactive devices</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">5. Advantages</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Simple to use</li>
+        <li>Low cost</li>
+        <li>Works in various lighting conditions</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">6. Limitations</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Performance affected by strong sunlight</li>
+        <li>Limited detection range (usually < 30cm)</li>
+      </ul>
+    </div>
 
     <h2 class="text-xl font-semibold mb-2">Circuit Connection:</h2>
     <ul class="list-disc list-inside pl-4 mb-6">
@@ -44,5 +91,16 @@ void loop() {
       <a href="../index.html" class="text-blue-600 hover:underline">← Back to Arduino Projects</a>
     </div>
   </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
 </body>
 </html>

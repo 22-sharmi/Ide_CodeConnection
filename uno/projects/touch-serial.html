@@ -3,13 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UNO - Touch Sensor Serial</title>
+  <title>Arduino UNO - Touch Sensor Serial</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-center p-6">
-  <h1 class="text-3xl font-bold mb-4">Arduino UNO - Touch Sensor Serial</h1>
-  <p class="mb-4">Displays “Touched” or “Not Touched” on Serial Monitor based on sensor input.</p>
-  <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - Touch Sensor Serial</h1>
+    <p class="mb-6 text-center">Displays “Touched” or “Not Touched” on Serial Monitor based on sensor input.</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">Touch Sensor – Detailed Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. What is a Touch Sensor?</h3>
+      <p>A touch sensor detects physical contact or proximity. A common type for Arduino is the TTP223 capacitive touch sensor.</p>
+
+      <h3 class="font-semibold mt-2">2. How It Works</h3>
+      <p>The sensor senses changes in capacitance when a human finger (or conductive object) approaches or touches its surface. It outputs a HIGH signal when touched, LOW otherwise.</p>
+
+      <h3 class="font-semibold mt-2">3. How It Works with Arduino</h3>
+      <ol class="list-decimal pl-5 space-y-1">
+        <li><strong>VCC</strong> to 5V (or 3.3V for some models)</li>
+        <li><strong>GND</strong> to Arduino GND</li>
+        <li><strong>OUT</strong> to digital pin 2 (in this example)</li>
+      </ol>
+
+      <h3 class="font-semibold mt-2">4. Applications</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Touch-based switches</li>
+        <li>Interactive art projects</li>
+        <li>Control panels without mechanical buttons</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">5. Advantages</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>No moving parts – longer lifespan</li>
+        <li>Waterproof and dustproof</li>
+        <li>Simple wiring</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">6. Limitations</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>May trigger accidentally if close to conductive objects</li>
+        <li>Works best with direct finger touch</li>
+      </ul>
+    </div>
+
+    <h2 class="text-xl font-semibold mb-2">Circuit Connection:</h2>
+    <ul class="list-disc list-inside pl-4 mb-6">
+      <li>OUT to digital pin 2</li>
+      <li>VCC to 5V</li>
+      <li>GND to GND</li>
+    </ul>
+
+    <pre class="bg-gray-100 p-4 rounded w-full overflow-x-auto mb-6">
 <code>
 int touchPin = 2; // Connect touch sensor output to pin 2
 
@@ -28,7 +82,22 @@ void loop() {
   delay(500);
 }
 </code>
-  </pre>
-  <a href="../index.html" class="mt-6 text-blue-600 hover:underline">← Back to UNO Projects</a>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to UNO Projects</a>
+    </div>
+  </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
 </body>
 </html>

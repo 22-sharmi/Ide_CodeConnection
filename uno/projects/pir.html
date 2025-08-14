@@ -10,7 +10,55 @@
   <div class="w-full max-w-3xl">
     <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - PIR Motion Sensor</h1>
 
-    <p class="mb-6 text-center">Detect motion and print the result to Serial Monitor.</p>
+    <p class="mb-6 text-center">Detect motion using a PIR sensor and print the status to the Serial Monitor.</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section (Hidden by default) -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">PIR Motion Sensor – Detailed Notes</h2>
+      
+      <h3 class="font-semibold mt-2">1. What is a PIR Motion Sensor?</h3>
+      <p>A PIR (Passive Infrared) sensor detects motion by sensing changes in infrared radiation (heat) emitted by living beings or objects.</p>
+      
+      <h3 class="font-semibold mt-2">2. Working Principle</h3>
+      <p>The PIR sensor has two slots made of special IR-sensitive material. When a warm object (like a human) moves across its field of view, the change in infrared levels between the two slots is detected and triggers the output signal.</p>
+      
+      <h3 class="font-semibold mt-2">3. How It Works with Arduino</h3>
+      <ol class="list-decimal pl-5 space-y-1">
+        <li><strong>VCC</strong> powers the sensor (5V).</li>
+        <li><strong>GND</strong> connects to Arduino ground.</li>
+        <li><strong>OUT pin</strong> sends HIGH when motion is detected, LOW otherwise.</li>
+        <li>Arduino reads this digital signal and takes action accordingly.</li>
+      </ol>
+
+      <h3 class="font-semibold mt-2">4. Applications</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Automatic lighting systems</li>
+        <li>Security alarms</li>
+        <li>Energy-saving devices</li>
+        <li>Human presence detection</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">5. Advantages</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Low power consumption</li>
+        <li>Wide detection range</li>
+        <li>Easy to integrate with microcontrollers</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">6. Limitations</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Cannot detect motion through glass</li>
+        <li>May trigger false alarms due to sudden temperature changes</li>
+        <li>Requires a short warm-up time before operation</li>
+      </ul>
+    </div>
 
     <h2 class="text-xl font-semibold mb-2">Circuit Connection:</h2>
     <ul class="list-disc list-inside pl-4 mb-6">
@@ -44,5 +92,16 @@ void loop() {
       <a href="../index.html" class="text-blue-600 hover:underline">← Back to Arduino Projects</a>
     </div>
   </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
 </body>
 </html>

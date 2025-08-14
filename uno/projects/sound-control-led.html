@@ -7,7 +7,6 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script>
     function toggleSection(id) {
-      document.getElementById("testCode").classList.add("hidden");
       document.getElementById("clapOnceCode").classList.add("hidden");
       document.getElementById("clapToggleCode").classList.add("hidden");
       document.getElementById(id).classList.remove("hidden");
@@ -21,30 +20,8 @@
 
     <!-- Toggle Buttons -->
     <div class="flex justify-center gap-4 mb-6">
-      <button onclick="toggleSection('testCode')" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">Normal Test</button>
       <button onclick="toggleSection('clapOnceCode')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Clap - Blink Once</button>
       <button onclick="toggleSection('clapToggleCode')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Clap - Toggle On/Off</button>
-    </div>
-
-    <!-- Normal Test Code -->
-    <div id="testCode" class="hidden">
-      <h2 class="text-2xl font-bold mb-2 text-center">Normal Sensor Test (Serial Monitor)</h2>
-      <pre class="bg-gray-100 p-4 rounded w-full overflow-x-auto mb-6">
-<code>
-const int soundSensorPin = 2;
-
-void setup() {
-  pinMode(soundSensorPin, INPUT);
-  Serial.begin(115200);
-}
-
-void loop() {
-  int value = digitalRead(soundSensorPin);
-  Serial.println(value);
-  delay(100);
-}
-</code>
-      </pre>
     </div>
 
     <!-- Clap Once Code -->

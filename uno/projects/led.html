@@ -3,13 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UNO - LED Blink</title>
+  <title>Arduino UNO - LED Blink</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-center p-6">
-  <h1 class="text-3xl font-bold mb-4">Arduino UNO - LED Blink</h1>
-  <p class="mb-4">This project blinks the built-in LED on pin 13 of the Arduino Uno.</p>
-  <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - LED Blink</h1>
+    <p class="mb-6 text-center">This project blinks the built-in LED on pin 13 of the Arduino Uno.</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">LED Blink – Detailed Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. What is an LED?</h3>
+      <p>An LED (Light Emitting Diode) is a semiconductor device that emits light when current flows through it.</p>
+
+      <h3 class="font-semibold mt-2">2. How It Works with Arduino</h3>
+      <p>The Arduino can supply voltage to the LED through a digital output pin. Turning the pin HIGH lights it up, turning it LOW turns it off.</p>
+
+      <h3 class="font-semibold mt-2">3. Circuit Connection</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>If using the <strong>built-in LED</strong>, connect to pin 13 (already wired on Uno boards).</li>
+        <li>If using an <strong>external LED</strong>:
+          <ul class="list-disc pl-5">
+            <li>Anode (+) to pin 13 through a 220Ω resistor</li>
+            <li>Cathode (–) to GND</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">4. Applications</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Status indicators</li>
+        <li>Debugging signals in projects</li>
+        <li>Basic learning for Arduino timing and control</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">5. Key Functions Used</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><code>pinMode()</code> – Configures pin as INPUT or OUTPUT.</li>
+        <li><code>digitalWrite()</code> – Sets pin HIGH or LOW.</li>
+        <li><code>delay()</code> – Pauses the program for a given time in milliseconds.</li>
+      </ul>
+    </div>
+
+    <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
 <code>
 void setup() {
   pinMode(13, OUTPUT);
@@ -22,7 +67,22 @@ void loop() {
   delay(1000);
 }
 </code>
-  </pre>
-  <a href="../index.html" class="mt-6 text-blue-600 hover:underline">← Back to UNO Projects</a>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to UNO Projects</a>
+    </div>
+  </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
 </body>
 </html>

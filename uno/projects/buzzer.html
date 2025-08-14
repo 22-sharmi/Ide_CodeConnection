@@ -6,10 +6,63 @@
   <title>UNO - Buzzer</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-center p-6">
-  <h1 class="text-3xl font-bold mb-4">Arduino UNO - Buzzer</h1>
-  <p class="mb-4">This project toggles a buzzer ON and OFF connected to pin 8 of the Uno.</p>
-  <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start p-6">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - Buzzer</h1>
+    <p class="mb-4 text-center">This project toggles a buzzer ON and OFF connected to pin 8 of the Uno.</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">Buzzer – Detailed Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. What is a Buzzer?</h3>
+      <p>A buzzer is an electronic device that produces sound when electricity flows through it. It is commonly used for alarms, alerts, and notifications in electronics projects.</p>
+
+      <h3 class="font-semibold mt-2">2. Types of Buzzers</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><strong>Active Buzzer</strong> – Produces sound as soon as power is applied.</li>
+        <li><strong>Passive Buzzer</strong> – Needs a signal (frequency) to produce sound.</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">3. How It Works</h3>
+      <p>When voltage is applied, the buzzer's internal piezoelectric element vibrates, producing sound. The vibration frequency determines the tone of the sound.</p>
+
+      <h3 class="font-semibold mt-2">4. Pin Connections</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><strong>+ Pin</strong> → Arduino Digital Pin 8 (in this project)</li>
+        <li><strong>- Pin</strong> → Arduino GND</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">5. Applications</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Alarms and alerts</li>
+        <li>Game buzzers</li>
+        <li>Doorbell systems</li>
+        <li>Timer notifications</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">6. How It Works in This Project</h3>
+      <ol class="list-decimal pl-5 space-y-1">
+        <li>Buzzer is connected to Pin 8 of Arduino UNO.</li>
+        <li>`digitalWrite(HIGH)` turns it ON, `digitalWrite(LOW)` turns it OFF.</li>
+        <li>`delay(500)` makes it beep for 0.5 seconds ON and OFF repeatedly.</li>
+      </ol>
+    </div>
+
+    <h2 class="text-xl font-semibold mb-2">Circuit Connection:</h2>
+    <ul class="list-disc list-inside pl-4 mb-6">
+      <li>+ Pin of buzzer → Arduino Digital Pin 8</li>
+      <li>- Pin of buzzer → Arduino GND</li>
+    </ul>
+
+    <pre class="bg-gray-100 p-4 rounded w-full overflow-x-auto mb-6">
 <code>
 int buzzer = 8;
 
@@ -24,7 +77,22 @@ void loop() {
   delay(500);
 }
 </code>
-  </pre>
-  <a href="../index.html" class="mt-6 text-blue-600 hover:underline">← Back to UNO Projects</a>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to UNO Projects</a>
+    </div>
+  </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
 </body>
 </html>

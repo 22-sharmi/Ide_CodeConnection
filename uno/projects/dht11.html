@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arduino DHT11 Temperature & Humidity Sensor</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - DHT11 Sensor</h1>
+
+    <p class="mb-6 text-center">Measure temperature and humidity using the DHT11 sensor and display readings on Serial Monitor.</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">DHT11 Sensor – Detailed Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. What is a DHT11 Sensor?</h3>
+      <p>The DHT11 is a low-cost digital sensor that measures both <strong>temperature</strong> and <strong>humidity</strong>. It is widely used in beginner electronics projects with Arduino, ESP32, and Raspberry Pi.</p>
+
+      <h3 class="font-semibold mt-2">2. Working Principle</h3>
+      <p>The sensor contains a <strong>thermistor</strong> for temperature measurement and a <strong>capacitive humidity sensor</strong> for humidity. An internal chip converts the readings into a digital signal.</p>
+
+      <h3 class="font-semibold mt-2">3. Features</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Temperature range: 0°C to 50°C</li>
+        <li>Humidity range: 20% to 90% RH</li>
+        <li>Accuracy: ±2°C (temperature), ±5% (humidity)</li>
+        <li>Power: 3V–5V</li>
+        <li>Output: Digital signal</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">4. Pin Connections</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><strong>VCC</strong> → Arduino 5V</li>
+        <li><strong>GND</strong> → Arduino GND</li>
+        <li><strong>DATA</strong> → Digital Pin 2 (can be changed in code)</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">5. Applications</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Weather stations</li>
+        <li>Home automation</li>
+        <li>Greenhouses</li>
+        <li>Industrial environment monitoring</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">6. Library Requirement</h3>
+      <p>Install the <strong>DHT sensor library by Adafruit</strong> and <strong>Adafruit Unified Sensor</strong> library in Arduino IDE to use the sensor easily.</p>
+    </div>
+
+    <h2 class="text-xl font-semibold mb-2">Circuit Connection:</h2>
+    <ul class="list-disc list-inside pl-4 mb-6">
+      <li>VCC → Arduino 5V</li>
+      <li>GND → Arduino GND</li>
+      <li>DATA → Digital Pin 2</li>
+    </ul>
+
+    <pre class="bg-gray-100 p-4 rounded w-full overflow-x-auto mb-6">
+<code>
+#include "DHT.h"
+
+#define DHTPIN 2
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+}
+
+void loop() {
+  float hum = dht.readHumidity();
+  float temp = dht.readTemperature();
+
+  Serial.print("Humidity: ");
+  Serial.print(hum);
+  Serial.print("%  Temperature: ");
+  Serial.print(temp);
+  Serial.println("°C");
+
+  delay(2000);
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to Arduino Projects</a>
+    </div>
+  </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
+</body>
+</html>
