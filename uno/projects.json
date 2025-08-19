@@ -7,6 +7,7 @@
   { "name": "PIR Sensor", "file": "projects/pir.html" },
   { "name": "IR Sensor", "file": "projects/ir.html" },
   { "name": "LDR", "file": "projects/ldr.html" },
+  { "name": "Automatic Night Light using LDR", "file": "projects/auto-night-light.html" },
   { "name": "DHT 11 Sensor", "file": "projects/dht11.html" },
   { "name": "Sound Sensor", "file": "projects/sound-sensor.html" },
   { "name": "Sound Sensor Controlled LED", "file": "projects/sound-control-led.html" },

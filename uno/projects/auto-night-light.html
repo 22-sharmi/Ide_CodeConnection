@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automatic Night Light using LDR</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Automatic Night Light using LDR</h1>
+    <p class="mb-6 text-center">In this project, an LED automatically turns ON when it is dark and OFF when it is bright using an LDR sensor.</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">Automatic Night Light – Detailed Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. How It Works</h3>
+      <p>The LDR (Light Dependent Resistor) changes its resistance with light. At night (darkness), its resistance is very high, and Arduino detects a low voltage, turning the LED ON. In bright light, resistance is low, voltage increases, and the LED is turned OFF.</p>
+
+      <h3 class="font-semibold mt-2">2. Circuit Connection</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>LDR one end → 5V</li>
+        <li>LDR other end → Analog pin A0 + one side of 10kΩ resistor</li>
+        <li>Other side of 10kΩ resistor → GND</li>
+        <li>LED Anode (+) → Digital pin 9 through 220Ω resistor</li>
+        <li>LED Cathode (–) → GND</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">3. Resistor Values</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><strong>LDR Voltage Divider Resistor:</strong> 10kΩ (adjust based on light conditions)</li>
+        <li><strong>LED Current Limiting Resistor:</strong> 220Ω (to protect LED)</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">4. Applications</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Streetlights that turn ON at night automatically</li>
+        <li>Home night lamps</li>
+        <li>Garden lighting systems</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">5. Key Functions Used</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><code>analogRead()</code> – Reads LDR value (0–1023)</li>
+        <li><code>digitalWrite()</code> – Turns LED ON/OFF</li>
+        <li><code>pinMode()</code> – Sets pin as INPUT or OUTPUT</li>
+      </ul>
+    </div>
+
+    <!-- Arduino Code -->
+    <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+int ldrPin = A0;     // LDR connected to analog pin A0
+int ledPin = 9;      // LED connected to digital pin 9
+int ldrValue = 0;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);  // To monitor LDR values
+}
+
+void loop() {
+  ldrValue = analogRead(ldrPin);   // Read LDR value
+  Serial.println(ldrValue);        // Print for debugging
+
+  if (ldrValue < 300) {            // Threshold value for darkness
+    digitalWrite(ledPin, HIGH);    // Turn LED ON
+  } else {
+    digitalWrite(ledPin, LOW);     // Turn LED OFF
+  }
+  delay(200);  // Small delay
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to UNO Projects</a>
+    </div>
+  </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
+</body>
+</html>
