@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arduino UNO - LED Brightness with Joystick</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - LED Brightness Control with Joystick</h1>
+    <p class="mb-6 text-center">This project demonstrates controlling LED brightness with a joystick. The first code uses only the Y-axis, while the second adds X-axis control and a button.</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">Joystick LED Brightness – Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. How It Works</h3>
+      <p>The joystick gives analog values (0–1023). These values are mapped to PWM range (0–255) using <code>map()</code>, and <code>analogWrite()</code> adjusts the LED brightness.</p>
+
+      <h3 class="font-semibold mt-2">2. Circuit Connection</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Joystick VCC → 5V, GND → GND</li>
+        <li>VRx (X-axis) → A0</li>
+        <li>VRy (Y-axis) → A1</li>
+        <li>SW (Button) → Pin 2</li>
+        <li>LED X → Pin 9 (220Ω resistor)</li>
+        <li>LED Y → Pin 10 (220Ω resistor)</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">3. Applications</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Brightness control for multiple LEDs</li>
+        <li>Joystick-controlled robotics or UI inputs</li>
+        <li>Gaming console projects</li>
+      </ul>
+    </div>
+
+    <!-- Arduino Code: Y-axis Control -->
+    <h2 class="text-2xl font-semibold mb-2 text-center mt-8">1. Single Axis Joystick Control</h2>
+    <p class="mb-4 text-center">This code controls the brightness of a single LED using the joystick's Y-axis.</p>
+    <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+const int yPin = A1;   // Joystick Y-axis
+const int ledPin = 9;  // LED pin (PWM)
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  int yValue = analogRead(yPin);          // Read joystick Y-axis
+  int brightness = map(yValue, 0, 1023, 0, 255);  // Map to PWM range
+  analogWrite(ledPin, brightness);        // Set LED brightness
+  delay(10);
+}
+</code>
+    </pre>
+
+    <!-- Arduino Code: Dual Axis + Button Control -->
+    <h2 class="text-2xl font-semibold mb-2 text-center mt-8">2. Dual Axis Joystick Control with Button</h2>
+    <p class="mb-4 text-center">This code controls two LEDs with both X and Y joystick axes. The button turns both LEDs off when pressed.</p>
+    <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+int xPin = A0;
+int yPin = A1;
+int buttonPin = 2;
+int ledX = 9;
+int ledY = 10;
+
+void setup() {
+  pinMode(ledX, OUTPUT);
+  pinMode(ledY, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);  // Joystick button
+  Serial.begin(9600);
+}
+
+void loop() {
+  int xValue = analogRead(xPin);
+  int yValue = analogRead(yPin);
+  int buttonState = digitalRead(buttonPin);
+
+  int ledXBrightness = map(xValue, 0, 1023, 0, 255);
+  int ledYBrightness = map(yValue, 0, 1023, 0, 255);
+
+  analogWrite(ledX, ledXBrightness);
+  analogWrite(ledY, ledYBrightness);
+
+  if (buttonState == LOW) {
+    analogWrite(ledX, 0);
+    analogWrite(ledY, 0);
+  }
+
+  delay(50);
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to UNO Projects</a>
+    </div>
+  </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
+</body>
+</html>

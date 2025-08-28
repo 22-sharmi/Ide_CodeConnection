@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arduino UNO - Buzzer Tone Control with Joystick</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - Buzzer Tone Control with Joystick</h1>
+    <p class="mb-6 text-center">This project changes buzzer tone frequency based on joystick X-axis position.</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">Joystick Buzzer Tone – Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. How It Works</h3>
+      <p>The joystick X-axis outputs values (0–1023), which we map to a frequency range. The <code>tone()</code> function generates a PWM signal at this frequency on the buzzer pin.</p>
+
+      <h3 class="font-semibold mt-2">2. Circuit Connection</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Joystick VCC → 5V, GND → GND</li>
+        <li>VRx (X-axis) → A0</li>
+        <li>Buzzer → Pin 8 (active buzzer recommended)</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">3. Applications</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Joystick-based music control</li>
+        <li>Interactive sound effects</li>
+        <li>Learning frequency generation</li>
+      </ul>
+    </div>
+
+    <!-- Arduino Code -->
+    <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+const int xPin = A0;     // Joystick X-axis
+const int buzzerPin = 8; // Buzzer pin
+
+void setup() {
+  pinMode(buzzerPin, OUTPUT);
+}
+
+void loop() {
+  int xValue = analogRead(xPin);          // Read joystick X-axis
+  int frequency = map(xValue, 0, 1023, 200, 2000); // Map to frequency range
+  tone(buzzerPin, frequency);             // Play tone
+  delay(10);
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to UNO Projects</a>
+    </div>
+  </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
+</body>
+</html>
