@@ -9,7 +9,7 @@
 <body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
   <div class="w-full max-w-3xl">
     <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - Buzzer Tone Control with Joystick</h1>
-    <p class="mb-6 text-center">This project changes buzzer tone frequency based on joystick X-axis position.</p>
+    <p class="mb-6 text-center">This project demonstrates controlling buzzer tones with a joystick. The first code varies tone continuously with the X-axis, while the second plays distinct notes based on joystick direction and includes a stop button.</p>
 
     <!-- Toggle Notes Button -->
     <div class="text-center mb-4">
@@ -20,27 +20,31 @@
 
     <!-- Notes Section -->
     <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
-      <h2 class="text-lg font-semibold mb-2">Joystick Buzzer Tone – Notes</h2>
+      <h2 class="text-lg font-semibold mb-2">Joystick Buzzer Control – Notes</h2>
 
       <h3 class="font-semibold mt-2">1. How It Works</h3>
-      <p>The joystick X-axis outputs values (0–1023), which we map to a frequency range. The <code>tone()</code> function generates a PWM signal at this frequency on the buzzer pin.</p>
+      <p>The joystick outputs analog values (0–1023) from its X and Y axes. These values are mapped to frequencies and played using the <code>tone()</code> function. The button is read digitally and stops the buzzer when pressed.</p>
 
       <h3 class="font-semibold mt-2">2. Circuit Connection</h3>
       <ul class="list-disc pl-5 space-y-1">
         <li>Joystick VCC → 5V, GND → GND</li>
         <li>VRx (X-axis) → A0</li>
-        <li>Buzzer → Pin 8 (active buzzer recommended)</li>
+        <li>VRy (Y-axis) → A1</li>
+        <li>SW (Button) → Pin 2</li>
+        <li>Buzzer → Pin 8 or 9 (depending on code)</li>
       </ul>
 
       <h3 class="font-semibold mt-2">3. Applications</h3>
       <ul class="list-disc pl-5 space-y-1">
-        <li>Joystick-based music control</li>
-        <li>Interactive sound effects</li>
-        <li>Learning frequency generation</li>
+        <li>Interactive sound control with a joystick</li>
+        <li>DIY musical instrument projects</li>
+        <li>Game or robot sound effects</li>
       </ul>
     </div>
 
-    <!-- Arduino Code -->
+    <!-- Arduino Code: Single Axis Buzzer Control -->
+    <h2 class="text-2xl font-semibold mb-2 text-center mt-8">1. Single Axis Joystick Tone Control</h2>
+    <p class="mb-4 text-center">This code maps the joystick’s X-axis value to a frequency range and plays that tone on a buzzer, allowing smooth pitch control.</p>
     <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
 <code>
 const int xPin = A0;     // Joystick X-axis
@@ -52,9 +56,57 @@ void setup() {
 
 void loop() {
   int xValue = analogRead(xPin);          // Read joystick X-axis
-  int frequency = map(xValue, 0, 1023, 200, 2000); // Map to frequency range
-  tone(buzzerPin, frequency);             // Play tone
+  int frequency = map(xValue, 0, 1023, 200, 2000); // Map joystick value to frequency
+  tone(buzzerPin, frequency);             // Play tone at the mapped frequency
   delay(10);
+}
+</code>
+    </pre>
+
+    <!-- Arduino Code: Dual Axis + Button Buzzer Control -->
+    <h2 class="text-2xl font-semibold mb-2 text-center mt-8">2. Dual Axis Joystick Notes with Button</h2>
+    <p class="mb-4 text-center">This code plays different musical notes based on joystick direction. Pressing the button stops the buzzer immediately.</p>
+    <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+int xPin = A0; 
+int yPin = A1;
+int buttonPin = 2;
+int buzzerPin = 9;
+
+void setup() {
+  pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(buzzerPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int xValue = analogRead(xPin);
+  int yValue = analogRead(yPin);
+  int buttonState = digitalRead(buttonPin);
+
+  int frequency = 0;
+
+  if (xValue &lt; 400) {
+    frequency = 262;  // C note
+  } else if (xValue &gt; 600) {
+    frequency = 294;  // D note
+  } else if (yValue &lt; 400) {
+    frequency = 330;  // E note
+  } else if (yValue &gt; 600) {
+    frequency = 349;  // F note
+  }
+
+  if (frequency &gt; 0 &amp;&amp; buttonState == HIGH) {
+    tone(buzzerPin, frequency);  // Play note
+  } else {
+    noTone(buzzerPin);          // Stop buzzer
+  }
+
+  if (buttonState == LOW) {
+    noTone(buzzerPin);          // Stop if button is pressed
+  }
+
+  delay(50);
 }
 </code>
     </pre>
