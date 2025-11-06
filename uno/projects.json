@@ -20,6 +20,6 @@
   { "name": "Intruder Alert System", "file": "projects/intruder-alert-system.html" },
   { "name": "Earthquake Vibration Alert", "file": "projects/vibration-alert.html" },
   { "name": "Smart Distance Alarm", "file": "projects/smart-distance-alarm.html" },
-  { "name": "Smart Climate Notifier", "file": "projects/smart-climate-notifier.html" }
+  { "name": "Smart Climate Notifier", "file": "projects/smart-climate-notifier.html" },
   { "name": "Reaction Time Game (Joystick)", "file": "projects/reactionTime.html" }
 ]
