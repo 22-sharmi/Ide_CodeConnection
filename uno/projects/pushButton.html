@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arduino UNO - Reaction Time Game (Push Button)</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - Reaction Time Game (Push Button)</h1>
+    <p class="mb-6 text-center">Test your reflexes using a simple push button connected to Arduino UNO!</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">Reaction Time Game – Detailed Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. Project Overview</h3>
+      <p>This project measures how quickly you can press a push button after an LED turns on. The reaction time (in milliseconds) is displayed on the Serial Monitor.</p>
+
+      <h3 class="font-semibold mt-2">2. How It Works</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>The player waits while the Arduino delays for a random time (2–5 seconds).</li>
+        <li>When the LED lights up, the timer starts immediately using <code>millis()</code>.</li>
+        <li>When the player presses the button, the Arduino calculates how long it took to react.</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">3. Circuit Connections</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>LED → Pin 13 (through a 220Ω resistor)</li>
+        <li>Push Button → Pin 2</li>
+        <li>GND → Other side of button</li>
+        <li>(Optional) 10kΩ resistor → Between Pin 2 and GND (for pull-down)</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">4. Key Functions Used</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><code>digitalRead()</code> – Detects the button press.</li>
+        <li><code>digitalWrite()</code> – Controls the LED.</li>
+        <li><code>millis()</code> – Tracks elapsed time for reaction measurement.</li>
+        <li><code>random()</code> – Creates a random delay for unpredictability.</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">5. Applications</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Reflex and reaction speed testing</li>
+        <li>Fun challenge games</li>
+        <li>Learning basic timing and input concepts with Arduino</li>
+      </ul>
+    </div>
+
+    <!-- Code Section -->
+    <pre class="bg-gray-100 p-4 rounded w-full overflow-x-auto mb-6">
+<code>
+// Reaction Time Game Using Push Button and LED
+
+const int ledPin = 13;      // LED connected to digital pin 13
+const int buttonPin = 2;    // Push button connected to digital pin 2
+
+unsigned long startTime;
+unsigned long reactionTime;
+bool waitingForPress = false;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);  // Use internal pull-up resistor
+  Serial.begin(9600);
+  randomSeed(analogRead(A0)); // Seed random from analog noise
+  Serial.println("=== Reaction Time Game ===");
+  Serial.println("Wait for LED, then press the button!");
+}
+
+void loop() {
+  delay(random(2000, 5000)); // Random wait between 2–5 seconds
+
+  digitalWrite(ledPin, HIGH);   // LED ON
+  startTime = millis();         // Start timing
+  waitingForPress = true;
+
+  while (waitingForPress) {
+    if (digitalRead(buttonPin) == LOW) { // Button pressed
+      reactionTime = millis() - startTime;
+      Serial.print("Your reaction time: ");
+      Serial.print(reactionTime);
+      Serial.println(" ms");
+      waitingForPress = false;
+      digitalWrite(ledPin, LOW);  // Turn off LED
+      delay(2000); // Pause before next round
+    }
+  }
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to Arduino Projects</a>
+    </div>
+  </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
+</body>
+</html>
