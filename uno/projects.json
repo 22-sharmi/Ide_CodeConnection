@@ -21,5 +21,6 @@
   { "name": "Earthquake Vibration Alert", "file": "projects/vibration-alert.html" },
   { "name": "Smart Distance Alarm", "file": "projects/smart-distance-alarm.html" },
   { "name": "Smart Climate Notifier", "file": "projects/smart-climate-notifier.html" },
+  { "name": "Reaction Time Game (Push Button )", "file": "projects/pushButton.html" },
   { "name": "Reaction Time Game (Joystick)", "file": "projects/reactionTime.html" }
 ]
