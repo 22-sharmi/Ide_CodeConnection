@@ -13,5 +13,6 @@
   { "name": "Intruder Alert System", "file": "projects/intruder-alert-system.html" },
   { "name": "Earthquake Vibration Alert", "file": "projects/vibration-alert.html" },
   { "name": "Smart Distance Alarm", "file": "projects/smart-distance-alarm.html" },
+  { "name": "Reaction Time (Push Button)", "file": "projects/pushButton.html" },
   { "name": "Smart Climate Notifier", "file": "projects/smart-climate-notifier.html" }
 ]
