@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESP32 - Reaction Time Game (Push Button)</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">ESP32 - Reaction Time Game (Push Button)</h1>
+    <p class="mb-6 text-center">Measure how fast you react when the LED lights up using an ESP32 and push button!</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">Reaction Time Game – ESP32 Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. Project Overview</h3>
+      <p>This ESP32 project measures your reaction speed by timing how quickly you press a button after an LED lights up.</p>
+
+      <h3 class="font-semibold mt-2">2. How It Works</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>The ESP32 waits for a random delay between 2–5 seconds.</li>
+        <li>When the LED turns on, a timer starts using <code>millis()</code>.</li>
+        <li>When you press the button, ESP32 calculates your reaction time.</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">3. ESP32 Circuit Connections</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>LED → GPIO 2 (built-in LED on many ESP32 boards)</li>
+        <li>Push Button → GPIO 4</li>
+        <li>Other button pin → GND</li>
+        <li>No resistor needed (ESP32 uses internal pull-up)</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">4. Key ESP32 Notes</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>ESP32 uses <code>esp_random()</code> to seed randomness.</li>
+        <li>Input mode <code>INPUT_PULLUP</code> works the same as Arduino.</li>
+        <li>Serial speed is faster (115200 baud).</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">5. Applications</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Reflex testing</li>
+        <li>Simple reaction games</li>
+        <li>Learning ESP32 input/output fundamentals</li>
+      </ul>
+    </div>
+
+    <!-- Code Section -->
+    <pre class="bg-gray-100 p-4 rounded w-full overflow-x-auto mb-6">
+<code>
+// ESP32 Reaction Time Game Using Push Button and LED
+
+const int ledPin = 2;       // LED on GPIO2 (often built-in)
+const int buttonPin = 4;    // Push button on GPIO4
+
+unsigned long startTime;
+unsigned long reactionTime;
+bool waitingForPress = false;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);  // Button with internal pull-up
+
+  Serial.begin(115200);
+  delay(1000);
+
+  // ESP32 hardware random seed
+  randomSeed(esp_random());
+
+  Serial.println("=== ESP32 Reaction Time Game ===");
+  Serial.println("Wait for the LED, then press the button!");
+}
+
+void loop() {
+  delay(random(2000, 5000)); // Random wait between 2–5 seconds
+
+  digitalWrite(ledPin, HIGH);   // LED ON
+  startTime = millis();         // Start timer
+  waitingForPress = true;
+
+  while (waitingForPress) {
+    if (digitalRead(buttonPin) == LOW) { // Button pressed
+      reactionTime = millis() - startTime;
+
+      Serial.print("Your reaction time: ");
+      Serial.print(reactionTime);
+      Serial.println(" ms");
+
+      waitingForPress = false;
+      digitalWrite(ledPin, LOW);  // LED OFF
+      delay(2000);                // Pause before next round
+    }
+  }
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to ESP32 Projects</a>
+    </div>
+  </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
+</body>
+</html>
