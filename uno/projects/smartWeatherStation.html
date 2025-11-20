@@ -28,8 +28,9 @@
         <li>Temperature & Humidity (DHT11)</li>
         <li>Light Intensity (LDR)</li>
         <li>Rain Detection (Raindrop Sensor)</li>
+        <li>Alerts using LED + Buzzer</li>
       </ul>
-      <p>All the data is printed to the Serial Monitor, letting you observe real-time weather conditions.</p>
+      <p>All data is printed to the Serial Monitor, and alerts are triggered when conditions exceed safe levels.</p>
 
       <h3 class="font-semibold mt-2">2. Components Used</h3>
       <ul class="list-disc pl-5 space-y-1">
@@ -37,6 +38,8 @@
         <li>DHT11 Temperature & Humidity Sensor</li>
         <li>LDR (Light Dependent Resistor) + 10k Resistor</li>
         <li>Raindrop Sensor Module</li>
+        <li>LED</li>
+        <li>Buzzer</li>
         <li>Jumper Wires</li>
         <li>Breadboard</li>
       </ul>
@@ -52,12 +55,12 @@
 
       <p class="font-semibold mt-3">LDR Sensor:</p>
       <ul class="list-disc pl-5 space-y-1">
-        <li><br>
-One end → 5V<br>
-Other end → A0<br>
-Same A0 point → 10kΩ resistor → GND<br>
-<em>(This creates the required voltage divider for correct LDR reading)</em>
-</li>
+        <li>
+          One end → 5V<br>
+          Other end → A0<br>
+          Same A0 point → 10kΩ resistor → GND<br>
+          <em>(This creates the required voltage divider for correct LDR reading)</em>
+        </li>
       </ul>
 
       <p class="font-semibold mt-3">Rain Sensor Module:</p>
@@ -67,11 +70,27 @@ Same A0 point → 10kΩ resistor → GND<br>
         <li>GND → GND</li>
       </ul>
 
-      <h3 class="font-semibold mt-2">4. Key Functions Used</h3>
+      <p class="font-semibold mt-3">LED & Buzzer Alerts:</p>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>LED → D8 (via 220Ω resistor)</li>
+        <li>Buzzer → D9</li>
+        <li>Both GND → Arduino GND</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">4. Alert Conditions</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><b>High Temperature Alert:</b> LED + buzzer activate when temperature > 30°C</li>
+        <li><b>High Humidity Alert:</b> Alerts when humidity > 80%</li>
+        <li><b>Rain Alert:</b> Alerts when rain value drops below 500 (wet condition)</li>
+        <li><b>Dark Environment Alert:</b> Alerts when LDR value < 300</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">5. Key Functions Used</h3>
       <ul class="list-disc pl-5 space-y-1">
         <li><code>dht.readTemperature()</code> – Reads temperature in °C</li>
         <li><code>dht.readHumidity()</code> – Reads humidity (%)</li>
         <li><code>analogRead()</code> – Reads LDR and Rain sensor values</li>
+        <li><code>digitalWrite()</code> – Controls LED & buzzer alerts</li>
         <li><code>Serial.print()</code> – Displays weather data on Serial Monitor</li>
       </ul>
     </div>
@@ -79,7 +98,7 @@ Same A0 point → 10kΩ resistor → GND<br>
     <!-- Arduino Code -->
     <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
 <code>
-#include &lt;DHT.h&gt;
+#include <DHT.h>
 
 #define DHTPIN 2
 #define DHTTYPE DHT11
@@ -88,9 +107,15 @@ DHT dht(DHTPIN, DHTTYPE);
 int ldrPin = A0;
 int rainPin = A1;
 
+int ledPin = 8;
+int buzzerPin = 9;
+
 void setup() {
   Serial.begin(9600);
   dht.begin();
+  
+  pinMode(ledPin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
 }
 
 void loop() {
@@ -114,6 +139,22 @@ void loop() {
 
   Serial.print("Rain Level: ");
   Serial.println(rainValue);
+
+  // Alert conditions
+  bool alert = false;
+
+  if (temperature > 30) alert = true;
+  if (humidity > 80) alert = true;
+  if (rainValue < 500) alert = true;
+  if (lightValue < 300) alert = true;
+
+  if (alert) {
+    digitalWrite(ledPin, HIGH);
+    digitalWrite(buzzerPin, HIGH);
+  } else {
+    digitalWrite(ledPin, LOW);
+    digitalWrite(buzzerPin, LOW);
+  }
 
   Serial.println("--------------------------------");
   delay(1000);
