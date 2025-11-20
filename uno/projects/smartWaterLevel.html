@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Water Level Indicator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Smart Water Level Indicator</h1>
+    <p class="mb-6 text-center">A water level monitoring project using Arduino UNO, LEDs, and a buzzer to indicate tank levels and overflow conditions.</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notesSection" class="hidden bg-blue-50 border border-blue-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">Smart Water Level Indicator – Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. How the System Works</h3>
+      <p>The water level sensor outputs an analog value (0–1023) based on immersion depth. According to the reading, LEDs and the buzzer activate to alert water level status.</p>
+
+      <h3 class="font-semibold mt-2">2. Components Used</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Arduino UNO</li>
+        <li>Water Level Sensor</li>
+        <li>Red LED – High Level Warning</li>
+        <li>Green LED – Normal Level Indicator</li>
+        <li>Active Buzzer – Overflow Alert</li>
+        <li>220Ω resistors for LEDs</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">3. Circuit Connection</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Sensor VCC → 5V</li>
+        <li>Sensor GND → GND</li>
+        <li>Sensor OUT → A0</li>
+        <li>Green LED → Pin 7</li>
+        <li>Red LED → Pin 8</li>
+        <li>Buzzer → Pin 9</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">4. Project Behavior</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><strong>Low Water:</strong> Green LED ON</li>
+        <li><strong>Medium:</strong> All OFF</li>
+        <li><strong>High:</strong> Red LED ON + Buzzer ON</li>
+      </ul>
+    </div>
+
+    <!-- Arduino Code -->
+    <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+int sensorPin = A0;      
+int greenLED = 7;
+int redLED = 8;
+int buzzer = 9;
+
+int value = 0;
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(greenLED, OUTPUT);
+  pinMode(redLED, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+}
+
+void loop() {
+  value = analogRead(sensorPin);
+
+  Serial.print("Water Level: ");
+  Serial.println(value);
+
+  if (value < 200) {
+    // Low water
+    digitalWrite(greenLED, HIGH);
+    digitalWrite(redLED, LOW);
+    digitalWrite(buzzer, LOW);
+    Serial.println("Status: LOW");
+  } 
+  else if (value < 700) {
+    // Medium
+    digitalWrite(greenLED, LOW);
+    digitalWrite(redLED, LOW);
+    digitalWrite(buzzer, LOW);
+    Serial.println("Status: MEDIUM");
+  } 
+  else {
+    // High water
+    digitalWrite(greenLED, LOW);
+    digitalWrite(redLED, HIGH);
+    digitalWrite(buzzer, HIGH);
+    Serial.println("Status: HIGH / OVERFLOW WARNING!");
+  }
+
+  Serial.println("-------------------------");
+  delay(500);
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to UNO Projects</a>
+    </div>
+  </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
+</body>
+</html>
