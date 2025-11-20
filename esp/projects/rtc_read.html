@@ -20,13 +20,33 @@
     <div id="notesSection" class="hidden bg-blue-50 border border-blue-200 rounded p-4 mb-6">
       <h2 class="text-lg font-semibold mb-2">RTC – Notes</h2>
 
-      <h3 class="font-semibold mt-2">1. What This Does</h3>
+      <h3 class="font-semibold mt-2">1. What is RTC?</h3>
+      <p>
+        RTC stands for <strong>Real Time Clock</strong>.  
+        It is a small hardware clock module with its own battery, so it can
+        keep track of:
+      </p>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Current time (hours, minutes, seconds)</li>
+        <li>Date (day, month, year)</li>
+        <li>Even when the ESP32 is powered OFF</li>
+      </ul>
+
+      <p class="mt-2">
+        Modules like <strong>DS1307</strong> and <strong>DS3231</strong> are commonly used.  
+        Among them, the <strong>DS3231 is more accurate</strong because it has a temperature-compensated crystal oscillator.
+      </p>
+
+      <h3 class="font-semibold mt-4">2. What This Does</h3>
       <p>This project reads the current date and time from the RTC module and prints it to the Serial Monitor every second.</p>
 
-      <h3 class="font-semibold mt-2">2. Real-Time Behavior</h3>
-      <p><strong>Real time starts from the moment the sketch is uploaded</strong> because the RTC is set using the computer’s compile time unless you manually adjust the date/time.</p>
+      <h3 class="font-semibold mt-4">3. Real-Time Behavior</h3>
+      <p>
+        <strong>Real time starts from the moment the sketch is uploaded</strong>  
+        because the RTC is set using the computer’s compile time unless you manually adjust the date/time.
+      </p>
 
-      <h3 class="font-semibold mt-2">3. Wiring</h3>
+      <h3 class="font-semibold mt-4">4. Wiring</h3>
       <ul class="list-disc pl-5 space-y-1">
         <li>SDA → GPIO 21 (ESP32)</li>
         <li>SCL → GPIO 22 (ESP32)</li>
