@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RTC Alarm Clock</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">RTC Alarm Clock With Buzzer</h1>
+    <p class="mb-6 text-center">Plays a buzzer alarm when the RTC time matches the preset alarm time.</p>
+
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <div id="notesSection" class="hidden bg-blue-50 border border-blue-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">RTC Alarm – Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. What This Does</h3>
+      <p>The buzzer rings when the clock time equals the alarm time you set inside the code.</p>
+
+      <h3 class="font-semibold mt-2">2. Real-Time Behavior</h3>
+      <p><strong>RTC time begins from the moment the code is uploaded</strong> unless the user manually adjusts time. This is why alarms may ring earlier/later if not set manually.</p>
+
+      <h3 class="font-semibold mt-2">3. Wiring</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Buzzer → GPIO 9</li>
+        <li>SDA → GPIO 21</li>
+        <li>SCL → GPIO 22</li>
+      </ul>
+    </div>
+
+<pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+#include &lt;Wire.h&gt;
+#include "RTClib.h"
+
+RTC_DS3231 rtc;
+
+int buzzer = 9;
+int alarmHour = 8;
+int alarmMinute = 30;
+int alarmSecond = 0;
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin(21, 22);
+  pinMode(buzzer, OUTPUT);
+
+  if (!rtc.begin()) {
+    Serial.println("RTC not found!");
+    while (1);
+  }
+}
+
+void loop() {
+  DateTime now = rtc.now();
+
+  if (now.hour() == alarmHour &&
+      now.minute() == alarmMinute &&
+      now.second() == alarmSecond) {
+
+    digitalWrite(buzzer, HIGH);
+    delay(5000);
+    digitalWrite(buzzer, LOW);
+  }
+
+  delay(1000);
+}
+</code>
+</pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to Projects</a>
+    </div>
+  </div>
+
+<script>
+const toggleBtn = document.getElementById("toggleNotesBtn");
+const notes = document.getElementById("notesSection");
+toggleBtn.addEventListener("click", () => {
+  notes.classList.toggle("hidden");
+  toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+});
+</script>
+</body>
+</html>
