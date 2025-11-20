@@ -16,6 +16,6 @@
   { "name": "RTC Time & Date Reader", "file": "projects/rtc_read.html" },
   { "name": "Reaction Time (Push Button)", "file": "projects/pushButton.html" },
   { "name": "RTC-Based Home Automation LED", "file": "projects/rtc_led_auto.html" },
-  { "name": "RTC Alarm Clock with Buzzer", "file": "projects/ rtc_alarm.html" },
+  { "name": "RTC Alarm Clock with Buzzer", "file": "projects/rtc_alarm.html" },
   { "name": "Smart Climate Notifier", "file": "projects/smart-climate-notifier.html" }
 ]
