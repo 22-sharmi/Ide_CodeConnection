@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RTC Time & Date Reader</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">RTC Time & Date Reader</h1>
+    <p class="mb-6 text-center">Reads real-time clock values from Tiny RTC DS1307/DS3231 and displays them on the Serial Monitor.</p>
+
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <div id="notesSection" class="hidden bg-blue-50 border border-blue-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">RTC – Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. What This Does</h3>
+      <p>This project reads the current date and time from the RTC module and prints it to the Serial Monitor every second.</p>
+
+      <h3 class="font-semibold mt-2">2. Real-Time Behavior</h3>
+      <p><strong>Real time starts from the moment the sketch is uploaded</strong> because the RTC is set using the computer’s compile time unless you manually adjust the date/time.</p>
+
+      <h3 class="font-semibold mt-2">3. Wiring</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>SDA → GPIO 21 (ESP32)</li>
+        <li>SCL → GPIO 22 (ESP32)</li>
+        <li>VCC → 3.3V or 5V</li>
+        <li>GND → GND</li>
+      </ul>
+    </div>
+
+<pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+#include &lt;Wire.h&gt;
+#include "RTClib.h"
+
+RTC_DS1307 rtc;
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin(21, 22);
+
+  if (!rtc.begin()) {
+    Serial.println("RTC not found!");
+    while (1);
+  }
+
+  if (!rtc.isrunning()) {
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  }
+}
+
+void loop() {
+  DateTime now = rtc.now();
+
+  Serial.print("Date: ");
+  Serial.print(now.year());
+  Serial.print("/");
+  Serial.print(now.month());
+  Serial.print("/");
+  Serial.print(now.day());
+
+  Serial.print("  Time: ");
+  Serial.print(now.hour());
+  Serial.print(":");
+  Serial.print(now.minute());
+  Serial.print(":");
+  Serial.println(now.second());
+
+  delay(1000);
+}
+</code>
+</pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to Projects</a>
+    </div>
+  </div>
+
+<script>
+const toggleBtn = document.getElementById("toggleNotesBtn");
+const notes = document.getElementById("notesSection");
+toggleBtn.addEventListener("click", () => {
+  notes.classList.toggle("hidden");
+  toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+});
+</script>
+</body>
+</html>
