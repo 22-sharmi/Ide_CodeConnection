@@ -24,5 +24,8 @@
   { "name": "Reaction Time Game (Push Button )", "file": "projects/pushButton.html" },
   { "name": "Water Level Sensor", "file": "projects/waterLevel.html" },
   { "name": " Smart Water Level Indicator", "file": "projects/smartWaterLevel.html" },
+  { "name": " Rain Drop Sensor", "file": "projects/rainDrop.html" },
+  { "name": "Rain Alert Using LED and Buzzer", "file": "projects/rainAlert.html" },
+  { "name": "Smart Weather Station", "file": "projects/smartWeatherStation.html" },
   { "name": "Reaction Time Game (Joystick)", "file": "projects/reactionTime.html" }
 ]
