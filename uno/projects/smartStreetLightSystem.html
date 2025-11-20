@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arduino UNO - Smart Street Light System</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - Smart Street Light System</h1>
+    <p class="mb-6 text-center">Automatically turns a street-light LED ON at night and increases brightness during rain using an LDR and Rain Drop sensor.</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notesSection" class="hidden bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">Smart Street Light System – Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. Project Overview</h3>
+      <p>This project uses an LDR to detect ambient light and a Rain Drop sensor to detect rain. The streetlight (LED) turns ON when it is dark; if rain is detected, the light increases brightness automatically to improve visibility.</p>
+
+      <h3 class="font-semibold mt-2">2. Components Used</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Arduino UNO</li>
+        <li>LDR (2-pin) + 10kΩ resistor (for voltage divider)</li>
+        <li>MH-RD Rain Drop Sensor Module (A0 output)</li>
+        <li>High-power LED or LED module (use appropriate resistor or driver)</li>
+        <li>Jumper wires & breadboard</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">3. Circuit Connections</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><strong>LDR (2-pin voltage divider)</strong><br>
+          One end of LDR → 5V<br>
+          Other end of LDR → A0<br>
+          Same A0 point → 10kΩ resistor → GND<br>
+          <em>(This forms the voltage divider so Arduino can read a voltage at A0)</em>
+        </li>
+
+        <li><strong>Rain Sensor Module</strong><br>
+          A0 (Analog OUT) → A1 on Arduino<br>
+          VCC → 5V<br>
+          GND → GND
+        </li>
+
+        <li><strong>LED (Street Light)</strong><br>
+          LED + → D9 (PWM pin) via suitable resistor or driver<br>
+          LED - → GND
+        </li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">4. How It Works</h3>
+      <p>The Arduino continuously reads the LDR (A0) and the Rain sensor (A1). When the LDR reading falls below a configurable threshold, the system considers it "dark" and turns the LED ON at a base brightness. If the rain sensor reading indicates wet conditions (below its threshold), the Arduino increases the LED PWM duty cycle to boost brightness. During daytime the LED remains OFF.</p>
+
+      <h3 class="font-semibold mt-2">5. Adjustable Parameters</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><strong>darkThreshold</strong> — LDR ADC value below which it is considered dark (adjust per your location)</li>
+        <li><strong>rainThreshold</strong> — Rain sensor ADC value below which rain is considered detected (adjust using sensor potentiometer)</li>
+        <li><strong>baseBrightness</strong> — PWM value (0–255) when it is night but not raining</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">6. Key Functions Used</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><code>analogRead()</code> — Reads LDR & rain analog values</li>
+        <li><code>analogWrite()</code> — Sets LED PWM brightness</li>
+        <li><code>Serial.print()</code> — Debug output to Serial Monitor</li>
+      </ul>
+    </div>
+
+    <!-- Arduino Code -->
+    <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto"><code>
+// Smart Street Light System with Rain Boost
+
+int ldrPin = A0;      // LDR input
+int rainPin = A1;     // Rain sensor analog output
+int ledPin = 9;       // LED (PWM pin)
+
+int darkThreshold  = 400;  // LDR value below which it's considered dark (adjust)
+int rainThreshold  = 600;  // Rain sensor value below which rain is detected (adjust)
+int baseBrightness = 150;  // PWM (0-255) when dark but no rain
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  int ldrValue  = analogRead(ldrPin);
+  int rainValue = analogRead(rainPin);
+
+  Serial.print("LDR: ");
+  Serial.print(ldrValue);
+  Serial.print("  |  Rain: ");
+  Serial.println(rainValue);
+
+  int brightness = 0;
+
+  // Activate only when it's dark
+  if (ldrValue < darkThreshold) {
+    brightness = baseBrightness; // base night brightness
+
+    // If rain detected, increase to max brightness
+    if (rainValue < rainThreshold) {
+      brightness = 255; // full brightness in rain
+      Serial.println("Rain detected — boosting brightness to MAX");
+    } else {
+      Serial.println("Night mode — normal brightness");
+    }
+  } else {
+    brightness = 0;  
+    Serial.println("Daytime — light OFF");
+  }
+
+  // Apply PWM to LED
+  analogWrite(ledPin, brightness);
+
+  delay(500);
+}
+</code></pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to UNO Projects</a>
+    </div>
+  </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
+</body>
+</html>
