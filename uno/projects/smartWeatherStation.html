@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arduino UNO - Smart Weather Station</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <h1 class="text-3xl font-bold mb-4 text-center">Arduino UNO - Smart Weather Station</h1>
+    <p class="mb-6 text-center">This project monitors temperature, humidity, light level, and rainfall using various sensors and displays the data on the Serial Monitor.</p>
+
+    <!-- Toggle Notes Button -->
+    <div class="text-center mb-4">
+      <button id="toggleNotesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Show Notes
+      </button>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notesSection" class="hidden bg-green-50 border border-green-200 rounded p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">Smart Weather Station – Notes</h2>
+
+      <h3 class="font-semibold mt-2">1. What This Project Does</h3>
+      <p>This Smart Weather Station reads multiple environmental values such as:</p>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Temperature & Humidity (DHT11)</li>
+        <li>Light Intensity (LDR)</li>
+        <li>Rain Detection (Raindrop Sensor)</li>
+      </ul>
+      <p>All the data is printed to the Serial Monitor, letting you observe real-time weather conditions.</p>
+
+      <h3 class="font-semibold mt-2">2. Components Used</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Arduino UNO</li>
+        <li>DHT11 Temperature & Humidity Sensor</li>
+        <li>LDR (Light Dependent Resistor) + 10k Resistor</li>
+        <li>Raindrop Sensor Module</li>
+        <li>Jumper Wires</li>
+        <li>Breadboard</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">3. Circuit Connections</h3>
+
+      <p class="font-semibold mt-2">DHT11 Sensor:</p>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>VCC → 5V</li>
+        <li>GND → GND</li>
+        <li>DATA → D2</li>
+      </ul>
+
+      <p class="font-semibold mt-3">LDR Sensor:</p>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><br>
+One end → 5V<br>
+Other end → A0<br>
+Same A0 point → 10kΩ resistor → GND<br>
+<em>(This creates the required voltage divider for correct LDR reading)</em>
+</li>
+      </ul>
+
+      <p class="font-semibold mt-3">Rain Sensor Module:</p>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>A0 (Analog OUT) → A1 on Arduino</li>
+        <li>VCC → 5V</li>
+        <li>GND → GND</li>
+      </ul>
+
+      <h3 class="font-semibold mt-2">4. Key Functions Used</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><code>dht.readTemperature()</code> – Reads temperature in °C</li>
+        <li><code>dht.readHumidity()</code> – Reads humidity (%)</li>
+        <li><code>analogRead()</code> – Reads LDR and Rain sensor values</li>
+        <li><code>Serial.print()</code> – Displays weather data on Serial Monitor</li>
+      </ul>
+    </div>
+
+    <!-- Arduino Code -->
+    <pre class="bg-gray-100 p-4 rounded w-full max-w-2xl overflow-x-auto">
+<code>
+#include &lt;DHT.h&gt;
+
+#define DHTPIN 2
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+int ldrPin = A0;
+int rainPin = A1;
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+}
+
+void loop() {
+  float temperature = dht.readTemperature();
+  float humidity = dht.readHumidity();
+  int lightValue = analogRead(ldrPin);
+  int rainValue = analogRead(rainPin);
+
+  Serial.println("----- Weather Station Data -----");
+
+  Serial.print("Temperature: ");
+  Serial.print(temperature);
+  Serial.println(" °C");
+
+  Serial.print("Humidity: ");
+  Serial.print(humidity);
+  Serial.println(" %");
+
+  Serial.print("Light Level (LDR): ");
+  Serial.println(lightValue);
+
+  Serial.print("Rain Level: ");
+  Serial.println(rainValue);
+
+  Serial.println("--------------------------------");
+  delay(1000);
+}
+</code>
+    </pre>
+
+    <div class="text-center">
+      <a href="../index.html" class="text-blue-600 hover:underline">← Back to UNO Projects</a>
+    </div>
+  </div>
+
+  <!-- JavaScript for toggle -->
+  <script>
+    const toggleBtn = document.getElementById("toggleNotesBtn");
+    const notes = document.getElementById("notesSection");
+
+    toggleBtn.addEventListener("click", () => {
+      notes.classList.toggle("hidden");
+      toggleBtn.textContent = notes.classList.contains("hidden") ? "Show Notes" : "Hide Notes";
+    });
+  </script>
+</body>
+</html>
