@@ -28,41 +28,40 @@
 
       <h3 class="font-semibold mt-2">1. Project Overview</h3>
       <p>
-        This project uses a single push button to cycle an LED through multiple brightness levels.
-        Each time the button is pressed, the LED increases its brightness until the maximum level,
-        then returns back to OFF.
+        This project uses a single push button to cycle the LED through increasing brightness levels.
+        After reaching full brightness, it returns to OFF.
       </p>
 
       <h3 class="font-semibold mt-2">2. How It Works</h3>
       <ul class="list-disc pl-5 space-y-1">
-        <li>The button is connected to a digital input pin.</li>
-        <li>Each press advances to the next brightness step.</li>
-        <li>The LED is connected to a PWM pin (Pin 9) so that brightness can be controlled using analogWrite().</li>
-        <li>Debouncing is used to avoid multiple accidental presses.</li>
+        <li>One button cycles through brightness levels.</li>
+        <li>The LED is connected to a PWM pin (Pin 9).</li>
+        <li><code>analogWrite()</code> sets brightness for each level.</li>
+        <li>Debouncing prevents multiple unwanted button readings.</li>
+        <li>Internal pull-up resistor is used for the push button.</li>
       </ul>
 
       <h3 class="font-semibold mt-2">3. Circuit Connections</h3>
       <ul class="list-disc pl-5 space-y-1">
-        <li>LED → Pin 9 (PWM) through a 220Ω resistor</li>
+        <li>LED (with 220Ω resistor) → Pin 9 (PWM)</li>
         <li>LED GND → Arduino GND</li>
         <li>Push Button → Pin 2</li>
-        <li>Other side of button → 5V</li>
-        <li>10kΩ resistor → From Pin 2 to GND (pull-down)</li>
-        <li>(Alternatively, internal pull-up can be used)</li>
+        <li>Other side of button → GND</li>
+        <li>Using <strong>internal pull-up</strong>, so **no external resistor required**</li>
       </ul>
 
-      <h3 class="font-semibold mt-2">4. Key Functions Used</h3>
+      <h3 class="font-semibold mt-2">4. Key Functions</h3>
       <ul class="list-disc pl-5 space-y-1">
-        <li><code>analogWrite()</code> – Controls LED brightness.</li>
-        <li><code>digitalRead()</code> – Reads button press.</li>
-        <li><code>millis()</code> – Used to debounce the button.</li>
+        <li><code>digitalRead()</code></li>
+        <li><code>analogWrite()</code></li>
+        <li><code>millis()</code> for debounce timing</li>
       </ul>
 
       <h3 class="font-semibold mt-2">5. Applications</h3>
       <ul class="list-disc pl-5 space-y-1">
-        <li>Learning PWM and brightness control</li>
-        <li>Creating dimmable lights</li>
-        <li>Interactive button-based control systems</li>
+        <li>Dimmable LED lamps</li>
+        <li>Brightness selectors for gadgets</li>
+        <li>Learning PWM and button debouncing</li>
       </ul>
     </div>
 
@@ -74,17 +73,17 @@
 const int buttonPin = 2;     // Push button
 const int ledPin = 9;        // LED on PWM pin
 
-// Define brightness steps
+// Brightness steps
 int brightnessLevels[] = {0, 50, 120, 200, 255};
 int levelCount = 5;
 int currentLevel = 0;
 
-bool lastButtonState = LOW;
+bool lastButtonState = HIGH;  // HIGH because using INPUT_PULLUP
 unsigned long lastDebounceTime = 0;
-unsigned long debounceDelay = 50;
+unsigned long debounceDelay = 50; // 50ms debounce
 
 void setup() {
-  pinMode(buttonPin, INPUT);   // Using external pull-down
+  pinMode(buttonPin, INPUT_PULLUP);   // Using internal pull-up resistor
   pinMode(ledPin, OUTPUT);
   Serial.begin(9600);
 }
@@ -98,7 +97,8 @@ void loop() {
   }
 
   if ((millis() - lastDebounceTime) > debounceDelay) {
-    if (reading == HIGH && lastButtonState == LOW) {
+    // Button pressed when reading LOW (because of pull-up)
+    if (reading == LOW && lastButtonState == HIGH) {
       currentLevel++;
       if (currentLevel >= levelCount) currentLevel = 0;
 
@@ -120,7 +120,7 @@ void loop() {
 
   </div>
 
-  <!-- JavaScript for toggle -->
+  <!-- JavaScript Toggle -->
   <script>
     const toggleBtn = document.getElementById("toggleNotesBtn");
     const notes = document.getElementById("notesSection");
