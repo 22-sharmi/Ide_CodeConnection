@@ -28,5 +28,6 @@
   { "name": "Rain Alert Using LED and Buzzer", "file": "projects/rainAlert.html" },
   { "name": "Smart Weather Station", "file": "projects/smartWeatherStation.html" },
   { "name": "Smart Street Light System", "file": "projects/smartStreetLightSystem.html" },
+   { "name": "Push Button LED Brightness Control", "file": "projects/pushButtonLEDBrightnessControl.html" },
   { "name": "Reaction Time Game (Joystick)", "file": "projects/reactionTime.html" }
 ]
